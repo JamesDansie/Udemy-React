@@ -4,17 +4,22 @@ import PropTypes from 'prop-types';
 import Aux from '../../../hoc/Aux';
 import withClass from '../../../hoc/withClass';
 import classes from './Person.css';
+import AuthContext from '../../../context/auth-context';
 
 class Person extends Component {
   constructor(props) {
     super(props)
     this.inputElementRef = React.createRef();
   }
+
+  static contextType = AuthContext;
+
   componentDidMount() {
     // old way
     // this.inputElement.focus();
     // new way
     this.inputElementRef.current.focus();
+    console.log(this.context.authenticated);
   }
 
   render() {
@@ -22,7 +27,9 @@ class Person extends Component {
     return (
       // Aux can be replaced with React.Fragment
       <Aux>
-        {this.props.isAuth ? <p>Authenticated!</p> : <p>log in please</p>}
+        
+        {this.context.authenticated ? <p>Authenticated!</p> : <p>Please Log In</p>}
+        
         <p onClick={this.props.click}>
           I'm {this.props.name} and I am {this.props.age} years old!
         </p>
